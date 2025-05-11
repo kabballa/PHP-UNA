@@ -210,6 +210,11 @@ If you prefer not to clone the repository, you can download and execute the scri
 
 > **Note**: Ensure you review the script before executing it to understand its functionality and verify its safety.
 
+## PHP Documentation and License
+
+- Official PHP Documentation: [https://www.php.net/docs.php](https://www.php.net/docs.php)
+- PHP License: [https://www.php.net/license/](https://www.php.net/license/)
+
 ## Trademarks and Copyright
 
 This software listing is packaged by Coozila!. All trademarks mentioned are the property of their respective owners, and their use does not imply any affiliation or endorsement.
@@ -220,7 +225,8 @@ Copyright (C) 2009 - 2025 Coozila! Licensed under the MIT License.
 
 ### Licenses
 
-Coozila!: MIT License
+- Coozila!: MIT License
+- PHP: [PHP License](https://www.php.net/license/)
 
 ## Disclaimer
 
