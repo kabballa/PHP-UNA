@@ -547,58 +547,10 @@ for PHP_VERSION in "${PHP_VERSIONS[@]}"; do
 done
 
 # ----------------------------------------------------------------------------------#
-#   STEP 13: Verify and handle Imagick installation                                 #
-# ----------------------------------------------------------------------------------#
-
-verify_and_handle_Imagick() {
-    for PHP_VERSION in "${PHP_VERSIONS[@]}"; do
-        echo "DEBUG: Starting verification of Imagick for PHP $PHP_VERSION..." # Debug message
-        echo "🔍 Checking Imagick for PHP $PHP_VERSION..."
-
-        PHP_BIN="/usr/bin/php$PHP_VERSION"
-        if [ ! -x "$PHP_BIN" ]; then
-            echo "DEBUG: PHP binary $PHP_BIN not found or not executable. Skipping..." # Debug message
-            echo "⚠ PHP $PHP_VERSION binary not found. Skipping."
-            echo "---------------------------------------------"
-            continue
-        fi
-
-        PECL_BIN="/usr/bin/pecl"
-        if [ ! -x "$PECL_BIN" ]; then
-            echo "DEBUG: PECL binary $PECL_BIN not found. Ensure php-pear is installed." # Debug message
-            echo "✘ PECL not found. Install php-pear first."
-            echo "---------------------------------------------"
-            continue
-        fi
-
-        # Check if Imagick is installed for this PHP version
-        if PHP_PEAR_PHP_BIN=$PHP_BIN $PECL_BIN list | grep -q 'imagick'; then
-            echo "DEBUG: Imagick is installed for PHP $PHP_VERSION. Calling uninstall_Imagick..."
-            echo "✔ Imagick is installed for PHP $PHP_VERSION. Uninstalling..."
-            uninstall_Imagick "$PHP_VERSION"
-        else
-            echo "DEBUG: Imagick is NOT installed for PHP $PHP_VERSION. Ready for installation."
-            echo "✘ Imagick is NOT installed for PHP $PHP_VERSION."
-        fi
-
-        # Install Imagick after verification/uninstallation
-        echo "DEBUG: Calling install_imagick for PHP $PHP_VERSION..."
-        echo "➡ Installing Imagick for PHP $PHP_VERSION..."
-        install_imagick "$PHP_VERSION"
-
-        echo "---------------------------------------------"
-    done
-}
-
-# Call Imagick verification and installation
-echo "DEBUG: Starting Imagick verification and installation..."
-verify_and_handle_Imagick
-echo "DEBUG: Finished Imagick verification and installation."
-
-# ----------------------------------------------------------------------------------#
 #   STEP 14: Install Imagick extension using PECL for each PHP version              #
 # ----------------------------------------------------------------------------------#
 
+# Mută definiția funcției `install_imagick` înainte de apelul său.
 install_imagick() {
     PHP_VERSION="$1" # Receive the PHP version as an argument
     echo "DEBUG: Starting install_imagick for PHP $PHP_VERSION..."
@@ -762,6 +714,55 @@ install_imagick() {
     echo "✔ Imagick for PHP $PHP_VERSION installed successfully."
     return 0
 }
+
+# ----------------------------------------------------------------------------------#
+#   STEP 13: Verify and handle Imagick installation                                 #
+# ----------------------------------------------------------------------------------#
+
+verify_and_handle_Imagick() {
+    for PHP_VERSION in "${PHP_VERSIONS[@]}"; do
+        echo "DEBUG: Starting verification of Imagick for PHP $PHP_VERSION..." # Debug message
+        echo "🔍 Checking Imagick for PHP $PHP_VERSION..."
+
+        PHP_BIN="/usr/bin/php$PHP_VERSION"
+        if [ ! -x "$PHP_BIN" ]; then
+            echo "DEBUG: PHP binary $PHP_BIN not found or not executable. Skipping..." # Debug message
+            echo "⚠ PHP $PHP_VERSION binary not found. Skipping."
+            echo "---------------------------------------------"
+            continue
+        fi
+
+        PECL_BIN="/usr/bin/pecl"
+        if [ ! -x "$PECL_BIN" ]; then
+            echo "DEBUG: PECL binary $PECL_BIN not found. Ensure php-pear is installed." # Debug message
+            echo "✘ PECL not found. Install php-pear first."
+            echo "---------------------------------------------"
+            continue
+        fi
+
+        # Check if Imagick is installed for this PHP version
+        if PHP_PEAR_PHP_BIN=$PHP_BIN $PECL_BIN list | grep -q 'imagick'; then
+            echo "DEBUG: Imagick is installed for PHP $PHP_VERSION. Calling uninstall_Imagick..."
+            echo "✔ Imagick is installed for PHP $PHP_VERSION. Uninstalling..."
+            uninstall_Imagick "$PHP_VERSION"
+        else
+            echo "DEBUG: Imagick is NOT installed for PHP $PHP_VERSION. Ready for installation."
+            echo "✘ Imagick is NOT installed for PHP $PHP_VERSION."
+        fi
+
+        # Install Imagick after verification/uninstallation
+        echo "DEBUG: Calling install_imagick for PHP $PHP_VERSION..."
+        echo "➡ Installing Imagick for PHP $PHP_VERSION..."
+        install_imagick "$PHP_VERSION"
+
+        echo "---------------------------------------------"
+    done
+}
+
+# Call Imagick verification and installation
+echo "DEBUG: Starting Imagick verification and installation..."
+verify_and_handle_Imagick
+echo "DEBUG: Finished Imagick verification and installation."
 
 # ----------------------------------------------------------------------------------#
 #   STEP 15: Verify installed extensions for each PHP version                       #
