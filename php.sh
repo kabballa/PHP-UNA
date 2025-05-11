@@ -59,22 +59,29 @@ sudo apt update
 # ----------------------------------------------------------------------------------#
 
 select_php_versions() {
-    echo "Select the PHP versions you want to install (e.g., 7.4 8.1 8.2):"
-    echo "Press Enter to install the default version (8.2) or type 'all' to install all versions (7.4, 8.1, 8.2)."
-    echo "You have 10 seconds to respond..."
-    
-    # Set a default response after 10 seconds
-    read -t 10 -p "Your choice: " USER_INPUT || USER_INPUT="8.2"
+    if [ -t 0 ]; then
+        # Scriptul este executat într-un mod interactiv
+        echo "Select the PHP versions you want to install (e.g., 7.4 8.1 8.2):"
+        echo "Press Enter to install the default version (8.2) or type 'all' to install all versions (7.4, 8.0, 8.1, 8.2)."
+        echo "You have 10 seconds to respond..."
+        
+        # Set a default response after 10 seconds
+        read -t 10 -p "Your choice: " USER_INPUT || USER_INPUT="8.2"
 
-    if [[ "$USER_INPUT" == "all" ]]; then
-        PHP_VERSIONS=("7.4" "8.1" "8.2")
-    elif [[ -z "$USER_INPUT" ]]; then
-        PHP_VERSIONS=("8.2")
+        if [[ "$USER_INPUT" == "all" ]]; then
+            PHP_VERSIONS=("7.4" "8.0" "8.1" "8.2")
+        elif [[ -z "$USER_INPUT" ]]; then
+            PHP_VERSIONS=("8.2")
+        else
+            PHP_VERSIONS=($USER_INPUT)
+        fi
+
+        echo "PHP versions to be configured: ${PHP_VERSIONS[*]}"
     else
-        PHP_VERSIONS=($USER_INPUT)
+        # Scriptul este executat printr-un pipe (non-interactiv)
+        echo "Non-interactive mode detected. Defaulting to PHP 8.2."
+        PHP_VERSIONS=("8.2")
     fi
-
-    echo "PHP versions to be configured: ${PHP_VERSIONS[*]}"
 }
 
 # Call the function to select PHP versions
@@ -810,3 +817,5 @@ verify_installed_extensions() {
 
 # Execute the function
 verify_installed_extensions
+
+echo "PHP configuration for all versions completed successfully."
