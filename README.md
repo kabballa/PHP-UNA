@@ -51,7 +51,7 @@ Leveraging the power of Kubernetes (K8s) or Docker Swarm, Kabballa provides an e
 
 ### **Final Goal**
 
-The ultimate aim is to launch UNA Apps in a global multicloud environment, ensuring redundancy and scalability using Karmada and Kubernetes.
+The ultimate aim is to launch any Apps in a global multicloud environment, ensuring redundancy and scalability using Karmada and Kubernetes.
 
 ## Features
 
