@@ -50,7 +50,7 @@ Kabballa is a cutting-edge application designed to streamline the management and
 Leveraging the power of Kubernetes (K8s) or Docker Swarm, Kabballa provides an efficient way to host and orchestrate applications across multiple environments. Soon, Kabballa will become open source, inviting the community to contribute and innovate.
 
 <p align="center">
-    <img src="assets/php.jpeg" alt="Kabballa PHP" />
+    <img src="assets/php-setup.png" alt="Kabballa PHP" />
 </p>
 
 ### **Final Goal**
