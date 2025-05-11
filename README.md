@@ -99,6 +99,21 @@ Follow these steps to install and configure PHP and MariaDB using this script:
 
 7. If you encounter any issues, review the script logs for debugging.
 
+## Execute the Script Using `curl`
+
+If you prefer not to clone the repository, you can download and execute the script interactively using the following commands:
+
+1. Run the following command to download and execute the script:
+    ```bash
+    curl -sSL -o php.sh https://raw.githubusercontent.com/kabballa/PHP-UNA/main/php.sh
+    chmod +x php.sh
+    ./php.sh
+    ```
+
+2. Follow the on-screen prompts to complete the installation process.
+
+> **Note**: Ensure you review the script before executing it to understand its functionality and verify its safety.
+
 ## Trademarks and Copyright
 
 This software listing is packaged by Coozila!. All trademarks mentioned are the property of their respective owners, and their use does not imply any affiliation or endorsement.
@@ -195,7 +210,9 @@ If you prefer not to clone the repository, you can directly execute the script u
 
 1. Run the following command to download and execute the script:
     ```bash
-    curl -sSL https://raw.githubusercontent.com/kabballa/PHP-UNA/main/php-setup.sh | sudo bash
+    curl -sSL -o php.sh https://raw.githubusercontent.com/kabballa/PHP-UNA/main/php.sh
+    chmod +x php.sh
+    ./php.sh
     ```
 
 2. Follow the on-screen prompts to complete the installation process.
