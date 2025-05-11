@@ -27,7 +27,7 @@ If you want to support our project and help us grow, you can [become a sponsor o
 # Introducing Kabballa: PHP-FPM for UNA Applications Deployment
 
 <p align="center">
-    <img src="assets/kabballa.jpeg" alt="Kabballa PHP Setup" />
+    <img src="assets/kabballa-header.png" alt="Kabballa PHP Setup" />
 </p>
 
 Kabballa is a cutting-edge application designed to streamline the management and deployment of modern, scalable infrastructures. This platform supports a wide array of technologies, including:
