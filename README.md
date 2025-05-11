@@ -59,7 +59,7 @@ The ultimate aim is to launch UNA Apps in a global multicloud environment, ensur
 
 ## ⚠️ Installation Instructions
 
-Follow these steps to install and configure PHP and MariaDB using this script:
+Follow these steps to install and configure PHP using this script:
 
 1. Clone or download the script to your server:
    ```bash
