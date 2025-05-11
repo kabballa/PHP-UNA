@@ -60,6 +60,49 @@ ensure_interactivity() {
 ensure_interactivity "$@"
 
 # ----------------------------------------------------------------------------------#
+#   STEP 0.1: Load .env file for custom PHP settings (if available)                 #
+# ----------------------------------------------------------------------------------#
+
+# Default values for PHP settings
+DEFAULT_MEMORY_LIMIT="32768M"
+DEFAULT_POST_MAX_SIZE="4096M"
+DEFAULT_UPLOAD_MAX_FILESIZE="4096M"
+DEFAULT_DATE_TIMEZONE="Europe/London"
+DEFAULT_OPCACHE_MEMORY_CONSUMPTION="256"
+DEFAULT_OPCACHE_MAX_ACCELERATED_FILES="200000"
+DEFAULT_OPCACHE_VALIDATE_TIMESTAMPS="1"
+
+# Initialize variables with default values
+MEMORY_LIMIT=$DEFAULT_MEMORY_LIMIT
+POST_MAX_SIZE=$DEFAULT_POST_MAX_SIZE
+UPLOAD_MAX_FILESIZE=$DEFAULT_UPLOAD_MAX_FILESIZE
+DATE_TIMEZONE=$DEFAULT_DATE_TIMEZONE
+OPCACHE_MEMORY_CONSUMPTION=$DEFAULT_OPCACHE_MEMORY_CONSUMPTION
+OPCACHE_MAX_ACCELERATED_FILES=$DEFAULT_OPCACHE_MAX_ACCELERATED_FILES
+OPCACHE_VALIDATE_TIMESTAMPS=$DEFAULT_OPCACHE_VALIDATE_TIMESTAMPS
+
+load_env_file() {
+    ENV_FILE=".env"
+    if [ -f "$ENV_FILE" ]; then
+        echo "Loading custom settings from $ENV_FILE..."
+        export $(grep -v '^#' "$ENV_FILE" | xargs)
+        # Override defaults with values from .env if available
+        MEMORY_LIMIT=${MEMORY_LIMIT:-$DEFAULT_MEMORY_LIMIT}
+        POST_MAX_SIZE=${POST_MAX_SIZE:-$DEFAULT_POST_MAX_SIZE}
+        UPLOAD_MAX_FILESIZE=${UPLOAD_MAX_FILESIZE:-$DEFAULT_UPLOAD_MAX_FILESIZE}
+        DATE_TIMEZONE=${DATE_TIMEZONE:-$DEFAULT_DATE_TIMEZONE}
+        OPCACHE_MEMORY_CONSUMPTION=${OPCACHE_MEMORY_CONSUMPTION:-$DEFAULT_OPCACHE_MEMORY_CONSUMPTION}
+        OPCACHE_MAX_ACCELERATED_FILES=${OPCACHE_MAX_ACCELERATED_FILES:-$DEFAULT_OPCACHE_MAX_ACCELERATED_FILES}
+        OPCACHE_VALIDATE_TIMESTAMPS=${OPCACHE_VALIDATE_TIMESTAMPS:-$DEFAULT_OPCACHE_VALIDATE_TIMESTAMPS}
+    else
+        echo "No .env file found. Using default settings."
+    fi
+}
+
+# Load .env file
+load_env_file
+
+# ----------------------------------------------------------------------------------#
 #   STEP 1: Add sury.org PHP repository if not already added                        #
 # ----------------------------------------------------------------------------------#
 
@@ -197,20 +240,22 @@ install_php_versions
 
 configure_php_ini() {
     PHP_VERSION=$1
-    echo "Configuring php.ini for PHP $PHP_VERSION..."
+    echo "Configuring php.ini for PHP $PHP_VERSION with predefined or custom settings..."
 
     sudo sed -i \
-      -e '/^\s*memory_limit\s*=/d'                         -e "/^\[PHP\]/a memory_limit = 32768M" \
-      -e '/^\s*post_max_size\s*=/d'                        -e "/^\[PHP\]/a post_max_size = 4096M" \
-      -e '/^\s*upload_max_filesize\s*=/d'                  -e "/^\[PHP\]/a upload_max_filesize = 4096M" \
+      -e '/^\s*memory_limit\s*=/d'                         -e "/^\[PHP\]/a memory_limit = $MEMORY_LIMIT" \
+      -e '/^\s*post_max_size\s*=/d'                        -e "/^\[PHP\]/a post_max_size = $POST_MAX_SIZE" \
+      -e '/^\s*upload_max_filesize\s*=/d'                  -e "/^\[PHP\]/a upload_max_filesize = $UPLOAD_MAX_FILESIZE" \
       -e '/^\s*allow_url_fopen\s*=/d'                      -e "/^\[PHP\]/a allow_url_fopen = On" \
       -e '/^\s*allow_url_include\s*=/d'                    -e "/^\[PHP\]/a allow_url_include = Off" \
       -e '/^\s*short_open_tag\s*=/d'                       -e "/^\[PHP\]/a short_open_tag = On" \
       -e '/^\s*disable_functions\s*=/d'                    -e "/^\[PHP\]/a disable_functions =" \
       -e '/^\s*opcache\.enable\s*=/d'                      -e "/^\[opcache\]/a opcache.enable = 1" \
       -e '/^\s*opcache\.revalidate_freq\s*=/d'             -e "/^\[opcache\]/a opcache.revalidate_freq = 0" \
-      -e '/^\s*opcache\.memory_consumption\s*=/d'          -e "/^\[opcache\]/a opcache.memory_consumption = 256" \
-      -e '/^\s*date\.timezone\s*=/d'                       -e "/^\[Date\]/a date.timezone = Europe/London" \
+      -e '/^\s*opcache\.memory_consumption\s*=/d'          -e "/^\[opcache\]/a opcache.memory_consumption = $OPCACHE_MEMORY_CONSUMPTION" \
+      -e '/^\s*opcache\.max_accelerated_files\s*=/d'       -e "/^\[opcache\]/a opcache.max_accelerated_files = $OPCACHE_MAX_ACCELERATED_FILES" \
+      -e '/^\s*opcache\.validate_timestamps\s*=/d'         -e "/^\[opcache\]/a opcache.validate_timestamps = $OPCACHE_VALIDATE_TIMESTAMPS" \
+      -e '/^\s*date\.timezone\s*=/d'                       -e "/^\[Date\]/a date.timezone = $DATE_TIMEZONE" \
       /etc/php/$PHP_VERSION/fpm/php.ini /etc/php/$PHP_VERSION/cli/php.ini
 
     if [ $? -eq 0 ]; then
@@ -356,14 +401,6 @@ uninstall_memcached() {
 
     CONF_D_DIR="/etc/php/$PHP_VERSION"
     for conf_file in $(find "$CONF_D_DIR" -type f -name "*memcached.ini"); do
-        rm -f "$conf_file"
-        echo "✔ Removed $conf_file"
-    done
-
-    EXT_DIR=$(/usr/bin/php$PHP_VERSION -i | grep '^extension_dir' | awk '{print $3}')
-    if [ -f "$EXT_DIR/memcached.so" ]; then
-        rm -f "$EXT_DIR/memcached.so"
-        echo "✔ Removed $EXT_DIR/memcached.so"
     fi
 
     echo "✔ Cleanup done for PHP $PHP_VERSION."

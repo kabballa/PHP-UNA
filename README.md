@@ -139,6 +139,21 @@ To install Memcached or DragonflyDB, follow their respective installation guides
 - **Memcached Cluster (Kabballa Compatible)**: [Memcached Cluster Installation Guide](https://github.com/kabballa/memcached-cluster)
 - **DragonflyDB Cluster (Kabballa Compatible)**: [DragonflyDB Cluster Installation Guide](https://github.com/kabballa/dragonflydb-cluster)
 
+## Predefined PHP Settings and Customization
+
+This script comes with predefined PHP settings, such as memory limits, upload sizes, and timezone configurations. These settings are hardcoded in the script. If you want to modify these settings, you currently need to edit the script manually.
+
+### Future Improvement: `.env` File for Customization
+
+To make customization easier, we plan to introduce support for a `.env` file. This file will allow users to define their own PHP settings without modifying the script directly. Each user will be able to set their desired values for variables like:
+
+- `memory_limit`
+- `upload_max_filesize`
+- `post_max_size`
+- `date.timezone`
+
+Stay tuned for updates on this feature!
+
 ## Execute the Script Using `curl`
 
 If you prefer not to clone the repository, you can download and execute the script interactively using the following commands:
