@@ -85,7 +85,6 @@ Follow these steps to install and configure PHP using this script:
 5. The script will automatically install and configure:
    - PHP and its required modules.
    - Memcached and Imagick extensions for each PHP version.
-   - MariaDB with optimized settings.
 
 6. Verify the installation:
    - Check installed PHP versions:
