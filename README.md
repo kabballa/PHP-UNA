@@ -56,6 +56,7 @@ The ultimate aim is to launch UNA Apps in a global multicloud environment, ensur
 ## Features
 
 - Install PHP-FPM
+- Configure PHP settings dynamically using `.env` files.
 
 ## ⚠️ Installation Instructions
 
@@ -72,21 +73,29 @@ Follow these steps to install and configure PHP using this script:
    chmod +x php-setup.sh
    ```
 
-3. Run the script with root privileges:
+3. Copy the `.env.example` file to `.env` and customize it:
+   ```bash
+   cp .env.example .env
+   ```
+
+   - Open the `.env` file in your preferred text editor and modify the values as needed.
+   - The `.env` file allows you to override the default settings in `php.sh` for PHP, Opcache, Memcached, and PHP-FPM configurations.
+
+4. Run the script with root privileges:
    ```bash
    sudo ./php-setup.sh
    ```
 
-4. During execution, the script will prompt you to select PHP versions to install. You can:
+5. During execution, the script will prompt you to select PHP versions to install. You can:
    - Press Enter to install the default version (8.2).
    - Type `all` to install all supported versions (7.4, 8.0, 8.1, 8.2).
    - Specify one or more versions separated by spaces (e.g., `7.4 8.1`).
 
-5. The script will automatically install and configure:
+6. The script will automatically install and configure:
    - PHP and its required modules.
    - Memcached and Imagick extensions for each PHP version.
 
-6. Verify the installation:
+7. Verify the installation:
    - Check installed PHP versions:
      ```bash
      php -v
@@ -96,7 +105,30 @@ Follow these steps to install and configure PHP using this script:
      php -m
      ```
 
-7. If you encounter any issues, review the script logs for debugging.
+8. If you encounter any issues, review the script logs for debugging.
+
+## Using the `.env` File for Customization
+
+The `.env` file is used to override the default values in the `php.sh` script. By default, the script uses predefined values for PHP, Opcache, Memcached, and PHP-FPM settings. To customize these settings:
+
+1. Copy the `.env.example` file to `.env`:
+   ```bash
+   cp .env.example .env
+   ```
+
+2. Open the `.env` file in your preferred text editor and modify the values as needed. For example:
+   ```bash
+   MEMORY_LIMIT=65536M
+   UPLOAD_MAX_FILESIZE=8192M
+   POST_MAX_SIZE=8192M
+   ```
+
+3. Save the file and re-run the script to apply the changes:
+   ```bash
+   sudo ./php-setup.sh
+   ```
+
+> **Note**: If a variable is not defined in the `.env` file, the script will fall back to its default value.
 
 ## PHP Extensions Installed by the Script
 
@@ -141,18 +173,27 @@ To install Memcached or DragonflyDB, follow their respective installation guides
 
 ## Predefined PHP Settings and Customization
 
-This script comes with predefined PHP settings, such as memory limits, upload sizes, and timezone configurations. These settings are hardcoded in the script. If you want to modify these settings, you currently need to edit the script manually.
+This script uses a `.env` file for customization. The `.env.example` file provided in the repository contains all the configurable settings with default values. To customize these settings:
 
-### Future Improvement: `.env` File for Customization
+1. Copy the `.env.example` file to `.env`:
+   ```bash
+   cp .env.example .env
+   ```
 
-To make customization easier, we plan to introduce support for a `.env` file. This file will allow users to define their own PHP settings without modifying the script directly. Each user will be able to set their desired values for variables like:
+2. Open the `.env` file in your preferred text editor and modify the values as needed.
 
-- `memory_limit`
-- `upload_max_filesize`
-- `post_max_size`
-- `date.timezone`
+3. The script will automatically load the `.env` file and apply the settings during execution.
 
-Stay tuned for updates on this feature!
+### Example Customization
+
+To increase the memory limit and upload size, modify the `.env` file as follows:
+```bash
+MEMORY_LIMIT=65536M
+UPLOAD_MAX_FILESIZE=8192M
+POST_MAX_SIZE=8192M
+```
+
+Save the file and re-run the script to apply the changes.
 
 ## Execute the Script Using `curl`
 
@@ -184,7 +225,6 @@ Coozila!: MIT License
 ## Disclaimer
 
 This product is provided "as is," without any guarantees or warranties regarding its functionality, performance, or reliability. By using this product, you acknowledge that you do so at your own risk. Coozila! and its contributors are not liable for any issues, damages, or losses that may arise from the use of this product. We recommend thoroughly testing the product in your own environment before deploying it in a production setting.
-
 
 Happy coding!
 ## How to Fork and Modify the Repository
