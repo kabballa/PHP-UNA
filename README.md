@@ -99,6 +99,47 @@ Follow these steps to install and configure PHP using this script:
 
 7. If you encounter any issues, review the script logs for debugging.
 
+## PHP Extensions Installed by the Script
+
+This script installs the following PHP extensions for each selected PHP version:
+
+- **Core Extensions**:
+  - `php-fpm`
+  - `php-cli`
+  - `php-dev`
+
+- **Common Extensions**:
+  - `php-curl`
+  - `php-gd`
+  - `php-mbstring`
+  - `php-zip`
+  - `php-mysql`
+  - `php-exif`
+  - `php-fileinfo`
+  - `php-opcache`
+  - `php-readline`
+  - `php-xml`
+  - `php-soap`
+  - `php-intl`
+  - `php-bcmath`
+
+- **PECL Extensions**:
+  - `memcached` (via PECL)
+  - `imagick` (via PECL)
+
+> **Note**: The script installs only the PHP extensions. It does not install the Memcached or DragonflyDB servers. Refer to the "Important Notes on Memcached and DragonflyDB" section for more details.
+
+## Important Notes on Memcached and DragonflyDB
+
+This script **does not install the Memcached server**. It only installs the PHP extensions required to interact with Memcached. If you want to use Memcached, you need to install the Memcached server separately.
+
+Alternatively, you can use **DragonflyDB** as a modern replacement for Memcached. DragonflyDB is a high-performance, scalable in-memory database that supports Memcached and Redis protocols. It can be used as a drop-in replacement for Memcached in your infrastructure.
+
+To install Memcached or DragonflyDB, follow their respective installation guides:
+
+- **Memcached Cluster (Kabballa Compatible)**: [Memcached Cluster Installation Guide](https://github.com/kabballa/memcached-cluster)
+- **DragonflyDB Cluster (Kabballa Compatible)**: [DragonflyDB Cluster Installation Guide](https://github.com/kabballa/dragonflydb-cluster)
+
 ## Execute the Script Using `curl`
 
 If you prefer not to clone the repository, you can download and execute the script interactively using the following commands:
