@@ -1,5 +1,5 @@
 <p align="center">
-    <a href="https://www.coozila.com/plus/view-organization-profile/coozila" target="_blank">
+    <a href="https://www.coozila.com/plus/view-organization-profile/kabballa" target="_blank">
         <img src="https://img.shields.io/badge/Follow_on-Coozila!-1c7ed6?style=flat" alt="Follow on Coozila!" />
     </a>
 </p>
