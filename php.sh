@@ -819,3 +819,27 @@ verify_installed_extensions() {
 verify_installed_extensions
 
 echo "PHP configuration for all versions completed successfully."
+
+# ----------------------------------------------------------------------------------#
+#                                                                                   #
+#   ⚠️ IMPORTANT NOTICE                                                             #
+#                                                                                   #
+#   These commands and configuration changes are for informational purposes only.   #
+#   They DO NOT represent an official setup guide or best practices.                #
+#                                                                                   #
+#   ⚙️ Run them ONLY if you fully understand what they do.                          #
+#   ❗ Use at your own risk.                                                        #
+#                                                                                   #
+#   This script has been tested on a development server with the following specs:   #
+#       - 16 CPU cores                                                              #
+#       - 128GB of RAM                                                              #
+#       - Debian-based operating system                                             #
+#                                                                                   #
+#   Ensure the configuration values (e.g., memory limits, buffer sizes) are         #
+#   appropriate for your environment and adjust them as needed.                     #
+#                                                                                   #
+#   👉 This script is intended for advanced users and system administrators.        #
+#      Always test changes in a staging environment before applying them to         #
+#      production systems.                                                          #
+#                                                                                   #
+# ----------------------------------------------------------------------------------#
