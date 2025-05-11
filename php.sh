@@ -842,6 +842,15 @@ verify_installed_extensions
 
 echo "PHP configuration for all versions completed successfully."
 
+KABBALLA_GREETING='
+#===================================================================================#
+#                                                                                   #
+#       WELCOME TO PHP KABBALLA, THANKS FOR USING COOZILA! CLOUD PLATFORM           #
+#                                                                                   #
+#===================================================================================#
+'
+echo "$KABBALLA_GREETING"
+
 # ----------------------------------------------------------------------------------#
 #   ⚠️ IMPORTANT NOTICE                                                             #
 #                                                                                   #

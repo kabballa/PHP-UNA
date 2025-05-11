@@ -323,3 +323,7 @@ If you prefer not to clone the repository, you can directly execute the script u
 2. Follow the on-screen prompts to complete the installation process.
 
 > **Note**: Ensure you review the script before executing it to understand its functionality and verify its safety.
+
+## Thank You
+
+Thank you for using Kabballa! We hope it simplifies your PHP-FPM configuration and deployment process. If you have any feedback or suggestions, feel free to contribute or reach out to us.
