@@ -5,42 +5,6 @@
 #                                                                                   #
 # ----------------------------------------------------------------------------------#
 
-#   Script: php-setup.sh                                                            #
-#   Description:                                                                    #
-#       This script automates the installation, configuration, and management of    #
-#       multiple PHP versions, along with their extensions and dependencies. It     #
-#       also configures MariaDB with optimized settings.                            #
-# ----------------------------------------------------------------------------------#
-#   Features:                                                                       #
-#       1. Adds the sury.org PHP repository for managing PHP versions.              #
-#       2. Installs shared dependencies required for PHP and its extensions.        #
-#       3. Installs and configures multiple PHP versions (7.4, 8.1, 8.2).           #
-#       4. Configures php.ini settings for each PHP version.                        #
-#       5. Configures Opcache settings for each PHP version.                        #
-#       6. Configures PHP-FPM pool settings for each PHP version.                   #
-#       7. Updates the PECL channel for managing PHP extensions.                    #
-#       8. Installs and configures Memcached extension for each PHP version.        #
-#       9. Installs and configures Imagick extension for each PHP version.          #
-#      10. Verifies installed extensions for each PHP version.                      #
-#      11. Configures MariaDB with optimized settings for performance.              #
-# ----------------------------------------------------------------------------------#
-#   Usage:                                                                          #
-#       1. Ensure the script is executable:                                         #
-#          chmod +x php-setup.sh                                                    #
-#       2. Run the script with root privileges:                                     #
-#          sudo ./php-setup.sh                                                      #
-# ----------------------------------------------------------------------------------#
-#   Notes:                                                                          #
-#       - The script assumes a Debian-based system with apt package manager.        #
-#       - Ensure that the sury.org repository is accessible.                        #
-#       - MariaDB configuration changes are applied to                              #
-#       - `/etc/mysql/mariadb.conf.d/50-server.cnf`.                                #
-#       - PHP extensions are managed using PECL and built manually if necessary.    #
-# ----------------------------------------------------------------------------------#
-#   Author: Coozila! Team                                                           #
-#   Contact: lab@coozila.com                                                        #
-#   License: MIT                                                                    #
-# ----------------------------------------------------------------------------------#
 #!/usr/bin/env bash
 set -e
 
@@ -63,37 +27,12 @@ ensure_interactivity "$@"
 #   STEP 0.1: Load .env file for custom PHP settings (if available)                 #
 # ----------------------------------------------------------------------------------#
 
-# Default values for PHP settings
-DEFAULT_MEMORY_LIMIT="32768M"
-DEFAULT_POST_MAX_SIZE="4096M"
-DEFAULT_UPLOAD_MAX_FILESIZE="4096M"
-DEFAULT_DATE_TIMEZONE="Europe/London"
-DEFAULT_OPCACHE_MEMORY_CONSUMPTION="256"
-DEFAULT_OPCACHE_MAX_ACCELERATED_FILES="200000"
-DEFAULT_OPCACHE_VALIDATE_TIMESTAMPS="1"
-
-# Initialize variables with default values
-MEMORY_LIMIT=$DEFAULT_MEMORY_LIMIT
-POST_MAX_SIZE=$DEFAULT_POST_MAX_SIZE
-UPLOAD_MAX_FILESIZE=$DEFAULT_UPLOAD_MAX_FILESIZE
-DATE_TIMEZONE=$DEFAULT_DATE_TIMEZONE
-OPCACHE_MEMORY_CONSUMPTION=$DEFAULT_OPCACHE_MEMORY_CONSUMPTION
-OPCACHE_MAX_ACCELERATED_FILES=$DEFAULT_OPCACHE_MAX_ACCELERATED_FILES
-OPCACHE_VALIDATE_TIMESTAMPS=$DEFAULT_OPCACHE_VALIDATE_TIMESTAMPS
-
+# Load .env file for overriding default settings
 load_env_file() {
     ENV_FILE=".env"
     if [ -f "$ENV_FILE" ]; then
         echo "Loading custom settings from $ENV_FILE..."
         export $(grep -v '^#' "$ENV_FILE" | xargs)
-        # Override defaults with values from .env if available
-        MEMORY_LIMIT=${MEMORY_LIMIT:-$DEFAULT_MEMORY_LIMIT}
-        POST_MAX_SIZE=${POST_MAX_SIZE:-$DEFAULT_POST_MAX_SIZE}
-        UPLOAD_MAX_FILESIZE=${UPLOAD_MAX_FILESIZE:-$DEFAULT_UPLOAD_MAX_FILESIZE}
-        DATE_TIMEZONE=${DATE_TIMEZONE:-$DEFAULT_DATE_TIMEZONE}
-        OPCACHE_MEMORY_CONSUMPTION=${OPCACHE_MEMORY_CONSUMPTION:-$DEFAULT_OPCACHE_MEMORY_CONSUMPTION}
-        OPCACHE_MAX_ACCELERATED_FILES=${OPCACHE_MAX_ACCELERATED_FILES:-$DEFAULT_OPCACHE_MAX_ACCELERATED_FILES}
-        OPCACHE_VALIDATE_TIMESTAMPS=${OPCACHE_VALIDATE_TIMESTAMPS:-$DEFAULT_OPCACHE_VALIDATE_TIMESTAMPS}
     else
         echo "No .env file found. Using default settings."
     fi
@@ -243,19 +182,22 @@ configure_php_ini() {
     echo "Configuring php.ini for PHP $PHP_VERSION with predefined or custom settings..."
 
     sudo sed -i \
-      -e '/^\s*memory_limit\s*=/d'                         -e "/^\[PHP\]/a memory_limit = $MEMORY_LIMIT" \
-      -e '/^\s*post_max_size\s*=/d'                        -e "/^\[PHP\]/a post_max_size = $POST_MAX_SIZE" \
-      -e '/^\s*upload_max_filesize\s*=/d'                  -e "/^\[PHP\]/a upload_max_filesize = $UPLOAD_MAX_FILESIZE" \
-      -e '/^\s*allow_url_fopen\s*=/d'                      -e "/^\[PHP\]/a allow_url_fopen = On" \
-      -e '/^\s*allow_url_include\s*=/d'                    -e "/^\[PHP\]/a allow_url_include = Off" \
-      -e '/^\s*short_open_tag\s*=/d'                       -e "/^\[PHP\]/a short_open_tag = On" \
-      -e '/^\s*disable_functions\s*=/d'                    -e "/^\[PHP\]/a disable_functions =" \
+      -e '/^\s*memory_limit\s*=/d'                         -e "/^\[PHP\]/a memory_limit = ${MEMORY_LIMIT:-32768M}" \
+      -e '/^\s*post_max_size\s*=/d'                        -e "/^\[PHP\]/a post_max_size = ${POST_MAX_SIZE:-4096M}" \
+      -e '/^\s*upload_max_filesize\s*=/d'                  -e "/^\[PHP\]/a upload_max_filesize = ${UPLOAD_MAX_FILESIZE:-4096M}" \
+      -e '/^\s*allow_url_fopen\s*=/d'                      -e "/^\[PHP\]/a allow_url_fopen = ${ALLOW_URL_FOPEN:-On}" \
+      -e '/^\s*allow_url_include\s*=/d'                    -e "/^\[PHP\]/a allow_url_include = ${ALLOW_URL_INCLUDE:-Off}" \
+      -e '/^\s*short_open_tag\s*=/d'                       -e "/^\[PHP\]/a short_open_tag = ${SHORT_OPEN_TAG:-On}" \
+      -e '/^\s*disable_functions\s*=/d'                    -e "/^\[PHP\]/a disable_functions = ${DISABLE_FUNCTIONS:-}" \
       -e '/^\s*opcache\.enable\s*=/d'                      -e "/^\[opcache\]/a opcache.enable = 1" \
       -e '/^\s*opcache\.revalidate_freq\s*=/d'             -e "/^\[opcache\]/a opcache.revalidate_freq = 0" \
-      -e '/^\s*opcache\.memory_consumption\s*=/d'          -e "/^\[opcache\]/a opcache.memory_consumption = $OPCACHE_MEMORY_CONSUMPTION" \
-      -e '/^\s*opcache\.max_accelerated_files\s*=/d'       -e "/^\[opcache\]/a opcache.max_accelerated_files = $OPCACHE_MAX_ACCELERATED_FILES" \
-      -e '/^\s*opcache\.validate_timestamps\s*=/d'         -e "/^\[opcache\]/a opcache.validate_timestamps = $OPCACHE_VALIDATE_TIMESTAMPS" \
-      -e '/^\s*date\.timezone\s*=/d'                       -e "/^\[Date\]/a date.timezone = $DATE_TIMEZONE" \
+      -e '/^\s*opcache\.memory_consumption\s*=/d'          -e "/^\[opcache\]/a opcache.memory_consumption = ${OPCACHE_MEMORY_CONSUMPTION:-256}" \
+      -e '/^\s*opcache\.max_accelerated_files\s*=/d'       -e "/^\[opcache\]/a opcache.max_accelerated_files = ${OPCACHE_MAX_ACCELERATED_FILES:-200000}" \
+      -e '/^\s*opcache\.validate_timestamps\s*=/d'         -e "/^\[opcache\]/a opcache.validate_timestamps = ${OPCACHE_VALIDATE_TIMESTAMPS:-1}" \
+      -e '/^\s*opcache\.max_wasted_percentage\s*=/d'       -e "/^\[opcache\]/a opcache.max_wasted_percentage = ${OPCACHE_MAX_WASTED_PERCENTAGE:-20}" \
+      -e '/^\s*opcache\.interned_strings_buffer\s*=/d'     -e "/^\[opcache\]/a opcache.interned_strings_buffer = ${OPCACHE_INTERNED_STRINGS_BUFFER:-16}" \
+      -e '/^\s*opcache\.fast_shutdown\s*=/d'               -e "/^\[opcache\]/a opcache.fast_shutdown = ${OPCACHE_FAST_SHUTDOWN:-1}" \
+      -e '/^\s*date\.timezone\s*=/d'                       -e "/^\[Date\]/a date.timezone = ${DATE_TIMEZONE:-Europe/London}" \
       /etc/php/$PHP_VERSION/fpm/php.ini /etc/php/$PHP_VERSION/cli/php.ini
 
     if [ $? -eq 0 ]; then
@@ -280,14 +222,14 @@ configure_opcache() {
     echo "Configuring opcache for PHP $PHP_VERSION..."
 
     sudo sed -i \
-      -e '/^\s*opcache\.enable\s*=/d'                           -e "/^\[opcache\]/a opcache.enable = 1" \
-      -e '/^\s*opcache\.revalidate_freq\s*=/d'                  -e "/^\[opcache\]/a opcache.revalidate_freq = 0" \
-      -e '/^\s*opcache\.validate_timestamps\s*=/d'              -e "/^\[opcache\]/a opcache.validate_timestamps = 1" \
-      -e '/^\s*opcache\.max_accelerated_files\s*=/d'            -e "/^\[opcache\]/a opcache.max_accelerated_files = 200000" \
-      -e '/^\s*opcache\.memory_consumption\s*=/d'               -e "/^\[opcache\]/a opcache.memory_consumption = 256" \
-      -e '/^\s*opcache\.max_wasted_percentage\s*=/d'            -e "/^\[opcache\]/a opcache.max_wasted_percentage = 20" \
-      -e '/^\s*opcache\.interned_strings_buffer\s*=/d'          -e "/^\[opcache\]/a opcache.interned_strings_buffer = 16" \
-      -e '/^\s*opcache\.fast_shutdown\s*=/d'                    -e "/^\[opcache\]/a opcache.fast_shutdown = 1" \
+      -e '/^\s*opcache\.enable\s*=/d'                           -e "/^\[opcache\]/a opcache.enable = ${OPCACHE_ENABLE:-1}" \
+      -e '/^\s*opcache\.revalidate_freq\s*=/d'                  -e "/^\[opcache\]/a opcache.revalidate_freq = ${OPCACHE_REVALIDATE_FREQ:-0}" \
+      -e '/^\s*opcache\.validate_timestamps\s*=/d'              -e "/^\[opcache\]/a opcache.validate_timestamps = ${OPCACHE_VALIDATE_TIMESTAMPS:-1}" \
+      -e '/^\s*opcache\.max_accelerated_files\s*=/d'            -e "/^\[opcache\]/a opcache.max_accelerated_files = ${OPCACHE_MAX_ACCELERATED_FILES:-200000}" \
+      -e '/^\s*opcache\.memory_consumption\s*=/d'               -e "/^\[opcache\]/a opcache.memory_consumption = ${OPCACHE_MEMORY_CONSUMPTION:-256}" \
+      -e '/^\s*opcache\.max_wasted_percentage\s*=/d'            -e "/^\[opcache\]/a opcache.max_wasted_percentage = ${OPCACHE_MAX_WASTED_PERCENTAGE:-20}" \
+      -e '/^\s*opcache\.interned_strings_buffer\s*=/d'          -e "/^\[opcache\]/a opcache.interned_strings_buffer = ${OPCACHE_INTERNED_STRINGS_BUFFER:-16}" \
+      -e '/^\s*opcache\.fast_shutdown\s*=/d'                    -e "/^\[opcache\]/a opcache.fast_shutdown = ${OPCACHE_FAST_SHUTDOWN:-1}" \
       /etc/php/$PHP_VERSION/fpm/conf.d/10-opcache.ini
 
     if [ $? -eq 0 ]; then
@@ -313,17 +255,17 @@ configure_fpm_pool() {
 
     sudo sed -i \
       -e '/^\s*listen\s*=.*/d'                    -e "/^\[www\]/a listen = /run/php/php$PHP_VERSION-fpm.sock" \
-      -e '/^\s*listen\.owner\s*=.*/d'             -e "/^\[www\]/a listen.owner = www-data" \
-      -e '/^\s*listen\.group\s*=.*/d'             -e "/^\[www\]/a listen.group = www-data" \
-      -e '/^\s*listen\.mode\s*=.*/d'              -e "/^\[www\]/a listen.mode = 0660" \
-      -e '/^\s*pm\s*=.*/d'                        -e "/^\[www\]/a pm = dynamic" \
-      -e '/^\s*pm\.max_children\s*=.*/d'          -e "/^\[www\]/a pm.max_children = 128" \
-      -e '/^\s*pm\.start_servers\s*=.*/d'         -e "/^\[www\]/a pm.start_servers = 12" \
-      -e '/^\s*pm\.min_spare_servers\s*=.*/d'     -e "/^\[www\]/a pm.min_spare_servers = 6" \
-      -e '/^\s*pm\.max_spare_servers\s*=.*/d'     -e "/^\[www\]/a pm.max_spare_servers = 24" \
-      -e '/^\s*pm\.max_requests\s*=.*/d'          -e "/^\[www\]/a pm.max_requests = 0" \
-      -e '/^\s*rlimit_files\s*=.*/d'              -e "/^\[global\]/a rlimit_files = 65536" \
-      -e '/^\s*rlimit_core\s*=.*/d'               -e "/^\[global\]/a rlimit_core = 0" \
+      -e '/^\s*listen\.owner\s*=.*/d'             -e "/^\[www\]/a listen.owner = ${LISTEN_OWNER:-www-data}" \
+      -e '/^\s*listen\.group\s*=.*/d'             -e "/^\[www\]/a listen.group = ${LISTEN_GROUP:-www-data}" \
+      -e '/^\s*listen\.mode\s*=.*/d'              -e "/^\[www\]/a listen.mode = ${LISTEN_MODE:-0660}" \
+      -e '/^\s*pm\s*=.*/d'                        -e "/^\[www\]/a pm = ${PM:-dynamic}" \
+      -e '/^\s*pm\.max_children\s*=.*/d'          -e "/^\[www\]/a pm.max_children = ${PM_MAX_CHILDREN:-128}" \
+      -e '/^\s*pm\.start_servers\s*=.*/d'         -e "/^\[www\]/a pm.start_servers = ${PM_START_SERVERS:-12}" \
+      -e '/^\s*pm\.min_spare_servers\s*=.*/d'     -e "/^\[www\]/a pm.min_spare_servers = ${PM_MIN_SPARE_SERVERS:-6}" \
+      -e '/^\s*pm\.max_spare_servers\s*=.*/d'     -e "/^\[www\]/a pm.max_spare_servers = ${PM_MAX_SPARE_SERVERS:-24}" \
+      -e '/^\s*pm\.max_requests\s*=.*/d'          -e "/^\[www\]/a pm.max_requests = ${PM_MAX_REQUESTS:-0}" \
+      -e '/^\s*rlimit_files\s*=.*/d'              -e "/^\[global\]/a rlimit_files = ${RLIMIT_FILES:-65536}" \
+      -e '/^\s*rlimit_core\s*=.*/d'               -e "/^\[global\]/a rlimit_core = ${RLIMIT_CORE:-0}" \
       /etc/php/$PHP_VERSION/fpm/pool.d/www.conf
 
     if [ $? -eq 0 ]; then
@@ -401,6 +343,14 @@ uninstall_memcached() {
 
     CONF_D_DIR="/etc/php/$PHP_VERSION"
     for conf_file in $(find "$CONF_D_DIR" -type f -name "*memcached.ini"); do
+        rm -f "$conf_file"
+        echo "✔ Removed $conf_file"
+    done
+
+    EXT_DIR=$(/usr/bin/php$PHP_VERSION -i | grep '^extension_dir' | awk '{print $3}')
+    if [ -f "$EXT_DIR/memcached.so" ]; then
+        rm -f "$EXT_DIR/memcached.so"
+        echo "✔ Removed $EXT_DIR/memcached.so"
     fi
 
     echo "✔ Cleanup done for PHP $PHP_VERSION."
@@ -629,12 +579,12 @@ configure_memcached() {
     echo "Configuring memcached for PHP $PHP_VERSION..."
 
     sudo sed -i \
-      -e '/^\s*memcached\.serializer\s*=/d'                    -e "/^\[memcached\]/a memcached.serializer = php" \
-      -e '/^\s*memcached\.sess_prefix\s*=/d'                   -e "/^\[memcached\]/a memcached.sess_prefix = memc.sess.key." \
-      -e '/^\s*memcached\.sess_binary\s*=/d'                   -e "/^\[memcached\]/a memcached.sess_binary = On" \
-      -e '/^\s*memcached\.use_sasl\s*=/d'                      -e "/^\[memcached\]/a memcached.use_sasl = 0" \
-      -e '/^\s*memcached\.sess_lock_wait_min\s*=/d'            -e "/^\[memcached\]/a memcached.sess_lock_wait_min = 150" \
-      -e '/^\s*memcached\.sess_lock_wait_max\s*=/d'            -e "/^\[memcached\]/a memcached.sess_lock_wait_max = 150" \
+      -e '/^\s*memcached\.serializer\s*=/d'                    -e "/^\[memcached\]/a memcached.serializer = ${MEMCACHED_SERIALIZER:-php}" \
+      -e '/^\s*memcached\.sess_prefix\s*=/d'                   -e "/^\[memcached\]/a memcached.sess_prefix = ${MEMCACHED_SESS_PREFIX:-memc.sess.key.}" \
+      -e '/^\s*memcached\.sess_binary\s*=/d'                   -e "/^\[memcached\]/a memcached.sess_binary = ${MEMCACHED_SESS_BINARY:-On}" \
+      -e '/^\s*memcached\.use_sasl\s*=/d'                      -e "/^\[memcached\]/a memcached.use_sasl = ${MEMCACHED_USE_SASL:-0}" \
+      -e '/^\s*memcached\.sess_lock_wait_min\s*=/d'            -e "/^\[memcached\]/a memcached.sess_lock_wait_min = ${MEMCACHED_SESS_LOCK_WAIT_MIN:-150}" \
+      -e '/^\s*memcached\.sess_lock_wait_max\s*=/d'            -e "/^\[memcached\]/a memcached.sess_lock_wait_max = ${MEMCACHED_SESS_LOCK_WAIT_MAX:-150}" \
       /etc/php/$PHP_VERSION/fpm/conf.d/20-memcached.ini
 }
 
@@ -893,14 +843,7 @@ verify_installed_extensions
 echo "PHP configuration for all versions completed successfully."
 
 # ----------------------------------------------------------------------------------#
-#                                                                                   #
 #   ⚠️ IMPORTANT NOTICE                                                             #
-#                                                                                   #
-#   These commands and configuration changes are for informational purposes only.   #
-#   They DO NOT represent an official setup guide or best practices.                #
-#                                                                                   #
-#   ⚙️ Run them ONLY if you fully understand what they do.                          #
-#   ❗ Use at your own risk.                                                        #
 #                                                                                   #
 #   This script has been tested on a development server with the following specs:   #
 #       - 16 CPU cores                                                              #
