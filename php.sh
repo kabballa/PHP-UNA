@@ -244,7 +244,6 @@ else
     echo "PHP-FPM service for PHP $PHP_VERSION not found."
 fi
 
-
 # ----------------------------------------------------------------------------------#
 #   STEP 9: Update PECL channel                                                     #
 # ----------------------------------------------------------------------------------#
@@ -271,49 +270,6 @@ update_pecl_channel() {
 
 # Execute the function
 update_pecl_channel
-
-# ----------------------------------------------------------------------------------#
-#   STEP 10: Verify and handle Memcached installation                               #
-# ----------------------------------------------------------------------------------#
-
-# Function to verify and handle Memcached installation
-verify_and_handle_memcached() {
-    for PHP_VERSION in "${PHP_VERSIONS[@]}"; do
-        echo "🔍 Checking Memcached for PHP $PHP_VERSION..."
-
-        PHP_BIN="/usr/bin/php$PHP_VERSION"
-        if [ ! -x "$PHP_BIN" ]; then
-            echo "⚠ PHP $PHP_VERSION binary not found. Skipping."
-            echo "---------------------------------------------"
-            continue
-        fi
-
-        # Verifică dacă pecl e prezent
-        PECL_BIN="/usr/bin/pecl"
-        if [ ! -x "$PECL_BIN" ]; then
-            echo "✘ pecl not found. Install php-pear first."
-            echo "---------------------------------------------"
-            continue
-        fi
-
-        # Verifică dacă memcached e instalat pentru versiunea asta de PHP
-        if PHP_PEAR_PHP_BIN=$PHP_BIN $PECL_BIN list | grep -q 'memcached'; then
-            echo "✔ Memcached is installed for PHP $PHP_VERSION. Uninstalling..."
-            uninstall_memcached "$PHP_VERSION"
-        else
-            echo "✘ Memcached is NOT installed for PHP $PHP_VERSION."
-        fi
-
-        # După verificare/ștergere, instalează Memcached
-        echo "➡ Installing Memcached for PHP $PHP_VERSION..."
-        install_memcached "$PHP_VERSION"
-
-        echo "---------------------------------------------"
-    done
-}
-
-# Execute the function
-verify_and_handle_memcached
 
 # ----------------------------------------------------------------------------------#
 #   Uninstall Memcached extension if installed                                      #
@@ -523,6 +479,49 @@ install_memcached() {
 
     return 0
 }
+
+# ----------------------------------------------------------------------------------#
+#   STEP 10: Verify and handle Memcached installation                               #
+# ----------------------------------------------------------------------------------#
+
+# Function to verify and handle Memcached installation
+verify_and_handle_memcached() {
+    for PHP_VERSION in "${PHP_VERSIONS[@]}"; do
+        echo "🔍 Checking Memcached for PHP $PHP_VERSION..."
+
+        PHP_BIN="/usr/bin/php$PHP_VERSION"
+        if [ ! -x "$PHP_BIN" ]; then
+            echo "⚠ PHP $PHP_VERSION binary not found. Skipping."
+            echo "---------------------------------------------"
+            continue
+        fi
+
+        # Verifică dacă pecl e prezent
+        PECL_BIN="/usr/bin/pecl"
+        if [ ! -x "$PECL_BIN" ]; then
+            echo "✘ pecl not found. Install php-pear first."
+            echo "---------------------------------------------"
+            continue
+        fi
+
+        # Verifică dacă memcached e instalat pentru versiunea asta de PHP
+        if PHP_PEAR_PHP_BIN=$PHP_BIN $PECL_BIN list | grep -q 'memcached'; then
+            echo "✔ Memcached is installed for PHP $PHP_VERSION. Uninstalling..."
+            uninstall_memcached "$PHP_VERSION"
+        else
+            echo "✘ Memcached is NOT installed for PHP $PHP_VERSION."
+        fi
+
+        # După verificare/ștergere, instalează Memcached
+        echo "➡ Installing Memcached for PHP $PHP_VERSION..."
+        install_memcached "$PHP_VERSION"
+
+        echo "---------------------------------------------"
+    done
+}
+
+# Execute the function
+verify_and_handle_memcached
 
 # ----------------------------------------------------------------------------------#
 #   STEP 12: Configure Memcached settings for each PHP version                      #
@@ -789,3 +788,8 @@ verify_installed_extensions() {
         echo "---------------------------------------------"
     done
 }
+
+# Execute the function
+verify_installed_extensions
+
+echo "PHP configuration for all versions completed successfully."
