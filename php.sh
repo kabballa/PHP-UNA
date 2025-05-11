@@ -845,7 +845,7 @@ echo "PHP configuration for all versions completed successfully."
 KABBALLA_GREETING='
 #===================================================================================#
 #                                                                                   #
-#       WELCOME TO PHP KABBALLA, THANKS FOR USING COOZILA! CLOUD PLATFORM           #
+#           WELCOME TO KABBALLA, THANKS FOR USING COOZILA! CLOUD PLATFORM           #
 #                                                                                   #
 #===================================================================================#
 '
