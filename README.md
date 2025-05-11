@@ -215,6 +215,10 @@ If you prefer not to clone the repository, you can download and execute the scri
 - Official PHP Documentation: [https://www.php.net/docs.php](https://www.php.net/docs.php)
 - PHP License: [https://www.php.net/license/](https://www.php.net/license/)
 
+## Contributing
+
+We welcome contributions from the community! To get started, please read our [Contributing Guidelines](CONTRIBUTING.md).
+
 ## Trademarks and Copyright
 
 This software listing is packaged by Coozila!. All trademarks mentioned are the property of their respective owners, and their use does not imply any affiliation or endorsement.
