@@ -96,10 +96,6 @@ Follow these steps to install and configure PHP and MariaDB using this script:
      ```bash
      php -m
      ```
-   - Verify MariaDB status:
-     ```bash
-     sudo systemctl status mariadb
-     ```
 
 7. If you encounter any issues, review the script logs for debugging.
 
