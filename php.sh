@@ -48,11 +48,30 @@ set -e
 #   STEP 1: Add sury.org PHP repository if not already added                        #
 # ----------------------------------------------------------------------------------#
 
-sudo apt install -y gnupg2 ca-certificates lsb-release wget
-wget -qO - https://packages.sury.org/php/apt.gpg | sudo gpg --dearmor -o /usr/share/keyrings/php-archive-keyring.gpg
-echo "deb [signed-by=/usr/share/keyrings/php-archive-keyring.gpg] https://packages.sury.org/php/ $(lsb_release -sc) main" | sudo tee /etc/apt/sources.list.d/php.list
+add_php_repository() {
+    echo "Checking if the sury.org PHP repository is already added..."
+    if [ -f /etc/apt/sources.list.d/php.list ]; then
+        echo "The sury.org PHP repository is already added."
+        read -p "Do you want to overwrite the repository? (y/N): " OVERWRITE_REPO
+        OVERWRITE_REPO=${OVERWRITE_REPO:-N}
+        if [[ "$OVERWRITE_REPO" =~ ^[Yy]$ ]]; then
+            echo "Overwriting the repository..."
+            sudo rm -f /etc/apt/sources.list.d/php.list
+        else
+            echo "Skipping repository addition."
+            return
+        fi
+    fi
 
-sudo apt update
+    echo "Adding the sury.org PHP repository..."
+    sudo apt install -y gnupg2 ca-certificates lsb-release wget
+    wget -qO - https://packages.sury.org/php/apt.gpg | sudo gpg --dearmor -o /usr/share/keyrings/php-archive-keyring.gpg
+    echo "deb [signed-by=/usr/share/keyrings/php-archive-keyring.gpg] https://packages.sury.org/php/ $(lsb_release -sc) main" | sudo tee /etc/apt/sources.list.d/php.list
+    sudo apt update
+}
+
+# Call the function to add the PHP repository
+add_php_repository
 
 # ----------------------------------------------------------------------------------#
 #   STEP 2: Define PHP versions to configure (Interactive Mode)                     #
@@ -60,25 +79,32 @@ sudo apt update
 
 select_php_versions() {
     if [ -t 0 ]; then
-        # Scriptul este executat într-un mod interactiv
-        echo "Select the PHP versions you want to install (e.g., 7.4 8.1 8.2):"
-        echo "Press Enter to install the default version (8.2) or type 'all' to install all versions (7.4, 8.0, 8.1, 8.2)."
-        echo "You have 10 seconds to respond..."
+        # Interactive mode
+        echo "Select the PHP versions you want to install:"
+        echo "1) PHP 7.4"
+        echo "2) PHP 8.0"
+        echo "3) PHP 8.1"
+        echo "4) PHP 8.2 (default)"
+        echo "5) All versions (7.4, 8.0, 8.1, 8.2)"
+        echo "Press Enter to install the default version (8.2)."
         
-        # Set a default response after 10 seconds
-        read -t 10 -p "Your choice: " USER_INPUT || USER_INPUT="8.2"
+        read -p "Your choice: " USER_INPUT
 
-        if [[ "$USER_INPUT" == "all" ]]; then
-            PHP_VERSIONS=("7.4" "8.0" "8.1" "8.2")
-        elif [[ -z "$USER_INPUT" ]]; then
-            PHP_VERSIONS=("8.2")
-        else
-            PHP_VERSIONS=($USER_INPUT)
-        fi
+        case "$USER_INPUT" in
+            1) PHP_VERSIONS=("7.4") ;;
+            2) PHP_VERSIONS=("8.0") ;;
+            3) PHP_VERSIONS=("8.1") ;;
+            4 | "") PHP_VERSIONS=("8.2") ;; # Default to 8.2
+            5) PHP_VERSIONS=("7.4" "8.0" "8.1" "8.2") ;; # Install all versions
+            *) 
+                echo "Invalid choice. Defaulting to PHP 8.2."
+                PHP_VERSIONS=("8.2")
+                ;;
+        esac
 
         echo "PHP versions to be configured: ${PHP_VERSIONS[*]}"
     else
-        # Scriptul este executat printr-un pipe (non-interactiv)
+        # Non-interactive mode
         echo "Non-interactive mode detected. Defaulting to PHP 8.2."
         PHP_VERSIONS=("8.2")
     fi
