@@ -58,6 +58,24 @@ The ultimate aim is to launch any Apps in a global multicloud environment, ensur
 - Install PHP-FPM
 - Configure PHP settings dynamically using `.env` files.
 
+## ⚠️ Important Notice
+
+The `dev` branch is under active development and may contain untested or unstable changes. **Do not use the `dev` branch in production environments.**
+
+To use the stable version, switch to the latest available version (e.g., `1.0.0`):
+
+```bash
+git checkout 1.0.0
+```
+
+Ensure you are on the correct branch before running the script:
+
+```bash
+git branch
+```
+
+If you see `* 1.0.0` or another stable version, you are on the correct branch.
+
 ## ⚠️ Installation Instructions
 
 Follow these steps to install and configure PHP using this script:
