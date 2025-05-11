@@ -121,3 +121,87 @@ This product is provided "as is," without any guarantees or warranties regarding
 
 
 Happy coding!
+## How to Fork and Modify the Repository
+
+1. **Fork the Repository**:
+    - Go to the [GitHub repository](https://github.com/kabballa/PHP-UNA).
+    - Click the "Fork" button in the top-right corner to create your own copy of the repository.
+
+2. **Clone Your Fork**:
+    - Clone the forked repository to your local machine:
+      ```bash
+      git clone https://github.com/<your-username>/PHP-UNA.git
+      cd PHP-UNA
+      ```
+
+3. **Configure Git Username and Email**:
+    - Before committing changes, ensure your Git username and email are configured:
+      ```bash
+      git config --global user.name "Your Name"
+      git config --global user.email "your-email@example.com"
+      ```
+
+    - You can verify the configuration with:
+      ```bash
+      git config --global --list
+      ```
+
+4. **Make Changes**:
+    - Modify the files as needed using your preferred text editor or IDE.
+    - After making changes, stage and commit them:
+      ```bash
+      git add .
+      git commit -m "Your commit message"
+      ```
+
+5. **Push Changes**:
+    - Push your changes to your forked repository:
+      ```bash
+      git push origin main
+      ```
+
+6. **Sign Your Commits**:
+    - All pull requests must have signed commits to be accepted. To sign your commits, configure GPG signing in Git:
+      ```bash
+      git config --global user.signingkey <your-gpg-key-id>
+      git config --global commit.gpgsign true
+      ```
+
+    - If you don't have a GPG key, generate one using:
+      ```bash
+      gpg --full-generate-key
+      ```
+
+    - After generating the key, list your keys to find the key ID:
+      ```bash
+      gpg --list-secret-keys --keyid-format=long
+      ```
+
+    - Add the key to your GitHub account by exporting it:
+      ```bash
+      gpg --armor --export <your-gpg-key-id>
+      ```
+
+    - Copy the output and add it to your GitHub account under **Settings > SSH and GPG keys > New GPG key**.
+
+    - When committing, ensure your commits are signed:
+      ```bash
+      git commit -S -m "Your commit message"
+      ```
+
+7. **Create a Pull Request**:
+    - Go to your forked repository on GitHub.
+    - Click "Compare & pull request" to propose your changes to the original repository.
+
+## Execute the Script Using `curl`
+
+If you prefer not to clone the repository, you can directly execute the script using `curl`:
+
+1. Run the following command to download and execute the script:
+    ```bash
+    curl -sSL https://raw.githubusercontent.com/kabballa/PHP-UNA/main/php-setup.sh | sudo bash
+    ```
+
+2. Follow the on-screen prompts to complete the installation process.
+
+> **Note**: Ensure you review the script before executing it to understand its functionality and verify its safety.
