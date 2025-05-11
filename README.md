@@ -16,8 +16,6 @@
 
 > If you enjoy the project, please consider giving us a GitHub star ⭐️. Thank you!
 
----
-
 ## Sponsors
 
 If you want to support our project and help us grow, you can [become a sponsor on GitHub](https://github.com/sponsors/coozila).
@@ -25,8 +23,6 @@ If you want to support our project and help us grow, you can [become a sponsor o
 <p align="center">
     <a href="https://github.com/sponsors/coozila"></a>
 </p>
-
----
 
 # Introducing Kabballa: PHP-FPM for UNA Applications Deployment
 
@@ -57,13 +53,9 @@ Leveraging the power of Kubernetes (K8s) or Docker Swarm, Kabballa provides an e
 
 The ultimate aim is to launch UNA Apps in a global multicloud environment, ensuring redundancy and scalability using Karmada and Kubernetes.
 
----
-
 ## Features
 
 - Install PHP-FPM
-
----
 
 ## ⚠️ Installation Instructions
 
@@ -77,12 +69,12 @@ Follow these steps to install and configure PHP and MariaDB using this script:
 
 2. Make the script executable:
    ```bash
-   chmod +x /home/coozila/data/kabballa/kabballa/php-setup.sh
+   chmod +x php-setup.sh
    ```
 
 3. Run the script with root privileges:
    ```bash
-   sudo /home/coozila/data/kabballa/kabballa/php-setup.sh
+   sudo ./php-setup.sh
    ```
 
 4. During execution, the script will prompt you to select PHP versions to install. You can:
@@ -111,8 +103,6 @@ Follow these steps to install and configure PHP and MariaDB using this script:
 
 7. If you encounter any issues, review the script logs for debugging.
 
----
-
 ## Trademarks and Copyright
 
 This software listing is packaged by Coozila!. All trademarks mentioned are the property of their respective owners, and their use does not imply any affiliation or endorsement.
@@ -125,12 +115,9 @@ Copyright (C) 2009 - 2025 Coozila! Licensed under the MIT License.
 
 Coozila!: MIT License
 
----
-
 ## Disclaimer
 
 This product is provided "as is," without any guarantees or warranties regarding its functionality, performance, or reliability. By using this product, you acknowledge that you do so at your own risk. Coozila! and its contributors are not liable for any issues, damages, or losses that may arise from the use of this product. We recommend thoroughly testing the product in your own environment before deploying it in a production setting.
 
----
 
 Happy coding!
