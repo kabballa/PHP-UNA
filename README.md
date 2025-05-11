@@ -5,7 +5,7 @@
 </p>
 
 <p align="center">
-    <img width="233px" height="auto" src="https://www.coozila.com/static/themes/prometheus/img/coozila.png" />
+    <img width="233px" height="auto" src="assets/kabballa-black-icon-shadow.png" />
 </p>
 
 <p align="center">
