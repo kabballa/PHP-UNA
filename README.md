@@ -5,7 +5,7 @@
 </p>
 
 <p align="center">
-    <img width="233px" height="auto" src="assets/kabballa-black-icon-shadow.png" />
+    <img width="233px" height="auto" src="assets/kabballa-black-icon-shadow.png" alt="Kabballa Icon" />
 </p>
 
 <p align="center">
@@ -16,7 +16,7 @@
 
 > If you enjoy the project, please consider giving us a GitHub star ⭐️. Thank you!
 
-## Sponsors
+## 1. Sponsors
 
 If you want to support our project and help us grow, you can [become a sponsor on GitHub](https://github.com/sponsors/coozila).
 
@@ -24,7 +24,7 @@ If you want to support our project and help us grow, you can [become a sponsor o
     <a href="https://github.com/sponsors/coozila"></a>
 </p>
 
-# Introducing Kabballa: PHP-FPM for UNA Applications Deployment
+## 2. Introducing Kabballa: PHP-FPM for UNA Applications Deployment
 
 <p align="center">
     <img src="assets/kabballa-header.png" alt="Kabballa PHP Setup" />
@@ -53,102 +53,12 @@ Leveraging the power of Kubernetes (K8s) or Docker Swarm, Kabballa provides an e
 
 The ultimate aim is to launch any Apps in a global multicloud environment, ensuring redundancy and scalability using Karmada and Kubernetes.
 
-## Features
+## 3. Features
 
 - Install PHP-FPM
 - Configure PHP settings dynamically using `.env` files.
 
-## ⚠️ Important Notice
-
-The `dev` branch is under active development and may contain untested or unstable changes. **Do not use the `dev` branch in production environments.**
-
-To use the stable version, switch to the latest available version (e.g., `1.0.0`):
-
-```bash
-git checkout 1.0.0
-```
-
-Ensure you are on the correct branch before running the script:
-
-```bash
-git branch
-```
-
-If you see `* 1.0.0` or another stable version, you are on the correct branch.
-
-## ⚠️ Installation Instructions
-
-Follow these steps to install and configure PHP using this script:
-
-1. Clone or download the script to your server:
-   ```bash
-   git clone https://github.com/kabballa/PHP-UNA.git
-   cd PHP-UNA
-   ```
-
-2. Make the script executable:
-   ```bash
-   chmod +x php-setup.sh
-   ```
-
-3. Copy the `.env.example` file to `.env` and customize it:
-   ```bash
-   cp .env.example .env
-   ```
-
-   - Open the `.env` file in your preferred text editor and modify the values as needed.
-   - The `.env` file allows you to override the default settings in `php.sh` for PHP, Opcache, Memcached, and PHP-FPM configurations.
-
-4. Run the script with root privileges:
-   ```bash
-   sudo ./php-setup.sh
-   ```
-
-5. During execution, the script will prompt you to select PHP versions to install. You can:
-   - Press Enter to install the default version (8.2).
-   - Type `all` to install all supported versions (7.4, 8.0, 8.1, 8.2).
-   - Specify one or more versions separated by spaces (e.g., `7.4 8.1`).
-
-6. The script will automatically install and configure:
-   - PHP and its required modules.
-   - Memcached and Imagick extensions for each PHP version.
-
-7. Verify the installation:
-   - Check installed PHP versions:
-     ```bash
-     php -v
-     ```
-   - Check installed extensions:
-     ```bash
-     php -m
-     ```
-
-8. If you encounter any issues, review the script logs for debugging.
-
-## Using the `.env` File for Customization
-
-The `.env` file is used to override the default values in the `php.sh` script. By default, the script uses predefined values for PHP, Opcache, Memcached, and PHP-FPM settings. To customize these settings:
-
-1. Copy the `.env.example` file to `.env`:
-   ```bash
-   cp .env.example .env
-   ```
-
-2. Open the `.env` file in your preferred text editor and modify the values as needed. For example:
-   ```bash
-   MEMORY_LIMIT=65536M
-   UPLOAD_MAX_FILESIZE=8192M
-   POST_MAX_SIZE=8192M
-   ```
-
-3. Save the file and re-run the script to apply the changes:
-   ```bash
-   sudo ./php-setup.sh
-   ```
-
-> **Note**: If a variable is not defined in the `.env` file, the script will fall back to its default value.
-
-## PHP Extensions Installed by the Script
+## 4. PHP Extensions Installed by the Script
 
 This script installs the following PHP extensions for each selected PHP version:
 
@@ -178,7 +88,7 @@ This script installs the following PHP extensions for each selected PHP version:
 
 > **Note**: The script installs only the PHP extensions. It does not install the Memcached or DragonflyDB servers. Refer to the "Important Notes on Memcached and DragonflyDB" section for more details.
 
-## Important Notes on Memcached and DragonflyDB
+## 5. Important Notes on Memcached and DragonflyDB
 
 This script **does not install the Memcached server**. It only installs the PHP extensions required to interact with Memcached. If you want to use Memcached, you need to install the Memcached server separately.
 
@@ -189,84 +99,116 @@ To install Memcached or DragonflyDB, follow their respective installation guides
 - **Memcached Cluster (Kabballa Compatible)**: [Memcached Cluster Installation Guide](https://github.com/kabballa/memcached-cluster)
 - **DragonflyDB Cluster (Kabballa Compatible)**: [DragonflyDB Cluster Installation Guide](https://github.com/kabballa/dragonflydb-cluster)
 
-## Predefined PHP Settings and Customization
+## 6. PHP Documentation and License
 
-This script uses a `.env` file for customization. The `.env.example` file provided in the repository contains all the configurable settings with default values. To customize these settings:
+- Official PHP Documentation: [https://www.php.net/docs.php](https://www.php.net/docs.php)
+- PHP License: [https://www.php.net/license/](https://www.php.net/license/)
 
-1. Copy the `.env.example` file to `.env`:
-   ```bash
-   cp .env.example .env
-   ```
+## 7. Contributing
 
-2. Open the `.env` file in your preferred text editor and modify the values as needed.
+We welcome contributions from the community! To get started, please read our [Contributing Guidelines](CONTRIBUTING.md).
 
-3. The script will automatically load the `.env` file and apply the settings during execution.
+## 8. Trademarks and Copyright
 
-### Example Customization
+This software listing is packaged by Coozila!. All trademarks mentioned are the property of their respective owners, and their use does not imply any affiliation or endorsement.
 
-To increase the memory limit and upload size, modify the `.env` file as follows:
-```bash
-MEMORY_LIMIT=65536M
-UPLOAD_MAX_FILESIZE=8192M
-POST_MAX_SIZE=8192M
-```
+### 8.1 Copyright
 
-Save the file and re-run the script to apply the changes.
+Copyright (C) 2009 - 2025 Coozila! Licensed under the MIT License.
 
-## Execute the Script Using `curl`
+### 8.2 Licenses
 
-If you prefer not to clone the repository, you can directly execute the script using `curl` from either the `dev` or `1.0.0` branch:
+- Coozila!: MIT License
+- PHP: [PHP License](https://www.php.net/license/)
 
-### Using the `dev` branch
+## 9. Disclaimer
 
+This product is provided "as is," without any guarantees or warranties regarding its functionality, performance, or reliability. By using this product, you acknowledge that you do so at your own risk. Coozila! and its contributors are not liable for any issues, damages, or losses that may arise from the use of this product. We recommend thoroughly testing the product in your own environment before deploying it in a production setting.
+
+Happy coding!
+
+## 10. Installation Instructions
+
+### 10.1 Quick Network installation with `curl`
+
+You can install UNA PHP with Kabballa lib setup directly, without cloning the repo:
+
+**For the `dev` branch with latest optimization:**
 ```bash
 curl -sSL -o php.sh https://raw.githubusercontent.com/kabballa/PHP-UNA/dev/php.sh
 chmod +x php.sh
 ./php.sh
 ```
 
-### Using the `1.0.0` branch
-
+**For the `1.0.0` branch:**
 ```bash
 curl -sSL -o php.sh https://raw.githubusercontent.com/kabballa/PHP-UNA/1.0.0/php.sh
 chmod +x php.sh
 ./php.sh
 ```
 
----
+Follow the on-screen prompts to complete the installation.
 
-2. Follow the on-screen prompts to complete the installation process.
+### 10.2 Local deployment
 
-> **Note**: Ensure you review the script before executing it to understand its functionality and verify its safety.
+Follow these steps to install and configure PHP using this script:
 
-## PHP Documentation and License
+- Clone or download the script to your server:
+  ```bash
+  git clone https://github.com/kabballa/PHP-UNA.git
+  cd PHP-UNA
+  ```
 
-- Official PHP Documentation: [https://www.php.net/docs.php](https://www.php.net/docs.php)
-- PHP License: [https://www.php.net/license/](https://www.php.net/license/)
+- Make the script executable:
+  ```bash
+  chmod +x php-setup.sh
+  ```
+- The `.env` file is used to override the default values in the `php.sh` script. By default, the script uses predefined values for PHP, Opcache, Memcached, and PHP-FPM settings.
 
-## Contributing
+- Copy the example environment file:
+  ```bash
+  cp .env.example .env
+  ```
 
-We welcome contributions from the community! To get started, please read our [Contributing Guidelines](CONTRIBUTING.md).
+- Edit`.env` in your preferred text editor and modify the values as needed, for example:
+  ```bash
+  MEMORY_LIMIT=65536M
+  UPLOAD_MAX_FILESIZE=8192M
+  POST_MAX_SIZE=8192M
+  ```
 
-## Trademarks and Copyright
+- Save the file and then run the script with root privileges:
+  ```bash
+  sudo ./php-setup.sh
+  ```
 
-This software listing is packaged by Coozila!. All trademarks mentioned are the property of their respective owners, and their use does not imply any affiliation or endorsement.
+  During execution, the script will prompt you to select PHP versions to install. You can:
+  - Press Enter to install the default version (8.2).
+  - Type `all` to install all supported versions (7.4, 8.0, 8.1, 8.2).
+  - Specify one or more versions separated by spaces (e.g., `7.4 8.1`).
 
-### Copyright
+- The script will automatically install and configure:
+  - PHP and its required modules.
+  - Memcached and Imagick extensions for each PHP version.
 
-Copyright (C) 2009 - 2025 Coozila! Licensed under the MIT License.
+- Verify the installation:
+  - Check installed PHP versions:
+    ```bash
+    php -v
+    ```
+  - Check installed extensions:
+    ```bash
+    php -m
+    ```
 
-### Licenses
+- If you want to change the settings, edit the `.env` file, save it, and re-run the script to apply the changes:
+  ```bash
+  sudo ./php-setup.sh
+  ```
 
-- Coozila!: MIT License
-- PHP: [PHP License](https://www.php.net/license/)
+- If you encounter any issues, review the script logs for debugging.
 
-## Disclaimer
-
-This product is provided "as is," without any guarantees or warranties regarding its functionality, performance, or reliability. By using this product, you acknowledge that you do so at your own risk. Coozila! and its contributors are not liable for any issues, damages, or losses that may arise from the use of this product. We recommend thoroughly testing the product in your own environment before deploying it in a production setting.
-
-Happy coding!
-## How to Fork and Modify the Repository
+## 12. How to Fork and Modify the Repository
 
 1. **Fork the Repository**:
     - Go to the [GitHub repository](https://github.com/kabballa/PHP-UNA).
@@ -275,7 +217,7 @@ Happy coding!
 2. **Clone Your Fork**:
     - Clone the forked repository to your local machine:
       ```bash
-      git clone https://github.com/<your-username>/PHP-UNA.git
+      git clone [https://github.com/](https://github.com/)<your-username>/PHP-UNA.git
       cd PHP-UNA
       ```
 
@@ -338,6 +280,6 @@ Happy coding!
     - Go to your forked repository on GitHub.
     - Click "Compare & pull request" to propose your changes to the original repository.
 
-## Thank You
+## 13. Thank You
 
 Thank you for using Kabballa! We hope it simplifies your PHP-FPM configuration and deployment process. If you have any feedback or suggestions, feel free to contribute or reach out to us.
