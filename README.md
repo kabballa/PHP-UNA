@@ -165,7 +165,7 @@ Follow these steps to install and configure PHP using this script:
 
 - Make the script executable:
   ```bash
-  chmod +x php-setup.sh
+  chmod +x php.sh
   ```
 
 - The `.env` file is used to override the default values in the `php.sh` script. By default, the script uses predefined values for PHP, Opcache, Memcached, and PHP-FPM settings.
@@ -176,15 +176,24 @@ Follow these steps to install and configure PHP using this script:
   ```
 
 - Edit `.env` in your preferred text editor and modify the values as needed, for example:
-  ```bash
+  ```
   MEMORY_LIMIT=65536M
   UPLOAD_MAX_FILESIZE=8192M
   POST_MAX_SIZE=8192M
   ```
 
+- **How the script loads `.env`:**  
+  The `php.sh` script automatically loads variables from the `.env` file if it exists in the same directory. This is typically done in Bash scripts with a line like:
+  ```bash
+  set -a
+  [ -f .env ] && . .env
+  set +a
+  ```
+  This ensures all variables defined in `.env` are available as environment variables for the script execution.
+
 - Save the file and then run the script with root privileges:
   ```bash
-  sudo ./php-setup.sh
+  sudo ./php.sh
   ```
 
 During execution, the script will prompt you to select PHP versions to install. You can:
@@ -209,7 +218,7 @@ Verify the installation:
 
 If you want to change the settings, edit the `.env` file, save it, and re-run the script to apply the changes:
 ```bash
-sudo ./php-setup.sh
+sudo ./php.sh
 ```
 
 If you encounter any issues, review the script logs for debugging.

@@ -32,11 +32,21 @@ load_env_file() {
     ENV_FILE=".env"
     if [ -f "$ENV_FILE" ]; then
         echo "Loading custom settings from $ENV_FILE..."
-        export $(grep -v '^#' "$ENV_FILE" | xargs)
+        set -a
+        . "$ENV_FILE"
+        set +a
     else
         echo "No .env file found. Using default settings."
     fi
 }
+
+# Show info if running via curl
+if [ -n "$PS1" ] && [ -n "$BASH_SOURCE" ] && [[ "$0" == *"php.sh" ]]; then
+    echo "INFO: This script can be executed directly via curl:"
+    echo "  curl -sSL -o php.sh https://raw.githubusercontent.com/kabballa/PHP-UNA/dev/php.sh && chmod +x php.sh && ./php.sh"
+    echo "Or run with:"
+    echo "  bash <(curl -sSL https://raw.githubusercontent.com/kabballa/PHP-UNA/dev/php.sh)"
+fi
 
 # Load .env file
 load_env_file
@@ -431,7 +441,7 @@ install_memcached() {
         FOUND_DIRS=( $(find . -maxdepth 1 -type d -name "memcached-*" -print) )
         if [ ${#FOUND_DIRS[@]} -eq 1 ]; then
             EXTRACTED_PKG_DIR="${FOUND_DIRS[0]}"
-        elif [ ${#FOUND_DIRS[@]} -gt 1 ]; then
+        elif [ ${#FOUND_DIRS[@]} -gt 1 ];then
             echo "⚠ Multiple possible extracted directories found. Using the first one: ${FOUND_DIRS[0]}"
             EXTRACTED_PKG_DIR="${FOUND_DIRS[0]}"
         fi
