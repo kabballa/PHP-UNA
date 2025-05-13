@@ -167,6 +167,7 @@ Follow these steps to install and configure PHP using this script:
   ```bash
   chmod +x php-setup.sh
   ```
+
 - The `.env` file is used to override the default values in the `php.sh` script. By default, the script uses predefined values for PHP, Opcache, Memcached, and PHP-FPM settings.
 
 - Copy the example environment file:
@@ -174,7 +175,7 @@ Follow these steps to install and configure PHP using this script:
   cp .env.example .env
   ```
 
-- Edit`.env` in your preferred text editor and modify the values as needed, for example:
+- Edit `.env` in your preferred text editor and modify the values as needed, for example:
   ```bash
   MEMORY_LIMIT=65536M
   UPLOAD_MAX_FILESIZE=8192M
@@ -186,104 +187,104 @@ Follow these steps to install and configure PHP using this script:
   sudo ./php-setup.sh
   ```
 
-  During execution, the script will prompt you to select PHP versions to install. You can:
-  - Press Enter to install the default version (8.2).
-  - Type `all` to install all supported versions (7.4, 8.0, 8.1, 8.2).
-  - Specify one or more versions separated by spaces (e.g., `7.4 8.1`).
+During execution, the script will prompt you to select PHP versions to install. You can:
+- Press Enter to install the default version (8.2).
+- Type `all` to install all supported versions (7.4, 8.0, 8.1, 8.2).
+- Specify one or more versions separated by spaces (e.g., `7.4 8.1`).
 
-- The script will automatically install and configure:
-  - PHP and its required modules.
-  - Memcached and Imagick extensions for each PHP version.
+The script will automatically install and configure:
+- PHP and its required modules.
+- Memcached and Imagick extensions for each PHP version.
 
-- Verify the installation:
-  - Check installed PHP versions:
-    ```bash
-    php -v
-    ```
-  - Check installed extensions:
-    ```bash
-      php -m
-    ```
-    This command lists all installed PHP extensions for the current PHP version.
-
-- If you want to change the settings, edit the `.env` file, save it, and re-run the script to apply the changes:
+Verify the installation:
+- Check installed PHP versions:
   ```bash
-  sudo ./php-setup.sh
+  php -v
   ```
+- Check installed extensions:
+  ```bash
+  php -m
+  ```
+  This command lists all installed PHP extensions for the current PHP version.
 
-- If you encounter any issues, review the script logs for debugging.
+If you want to change the settings, edit the `.env` file, save it, and re-run the script to apply the changes:
+```bash
+sudo ./php-setup.sh
+```
+
+If you encounter any issues, review the script logs for debugging.
 
 ## 12. How to Fork and Modify the Repository
 
-### **ork the Repository**:
-    - Go to the [GitHub repository](https://github.com/kabballa/PHP-UNA).
-    - Click the "Fork" button in the top-right corner to create your own copy of the repository.
+- **Fork the Repository**:
+  - Go to the [GitHub repository](https://github.com/kabballa/PHP-UNA).
+  - Click the "Fork" button in the top-right corner to create your own copy of the repository.
 
-### **Clone Your Fork**:
-    - Clone the forked repository to your local machine:
-      ```bash
-      git clone [https://github.com/](https://github.com/)<your-username>/PHP-UNA.git
-      cd PHP-UNA
-      ```
+- **Clone Your Fork**:
+  - Clone the forked repository to your local machine:
+    ```bash
+    git clone https://github.com/<your-username>/PHP-UNA.git
+    cd PHP-UNA
+    ```
 
-###. **Configure Git Username and Email**:
-    - Before committing changes, ensure your Git username and email are configured:
-      ```bash
-      git config --global user.name "Your Name"
-      git config --global user.email "your-email@example.com"
-      ```
+- **Configure Git Username and Email**:
+  - Before committing changes, ensure your Git username and email are configured:
+    ```bash
+    git config --global user.name "Your Name"
+    git config --global user.email "your-email@example.com"
+    ```
 
-    - You can verify the configuration with:
-      ```bash
-      git config --global --list
-      ```
+  - You can verify the configuration with:
+    ```bash
+    git config --global --list
+    ```
 
-###. **Make Changes**:
-    - Modify the files as needed using your preferred text editor or IDE.
-    - After making changes, stage and commit them:
-      ```bash
-      git add .
-      git commit -m "Your commit message"
-      ```
+- **Make Changes**:
+  - Modify the files as needed using your preferred text editor or IDE.
+  - After making changes, stage and commit them:
+    ```bash
+    git add .
+    git commit -m "Your commit message"
+    ```
 
-###. **Push Changes**:
-    - Push your changes to your forked repository:
-      ```bash
-      git push origin main
-      ```
+- **Push Changes**:
+  - Push your changes to your forked repository:
+    ```bash
+    git push origin main
+    ```
 
-###. **Sign Your Commits**:
-    - All pull requests must have signed commits to be accepted. To sign your commits, configure GPG signing in Git:
-      ```bash
-      git config --global user.signingkey <your-gpg-key-id>
-      git config --global commit.gpgsign true
-      ```
+- **Sign Your Commits**:
+  - All pull requests must have signed commits to be accepted. To sign your commits, configure GPG signing in Git:
+    ```bash
+    git config --global user.signingkey <your-gpg-key-id>
+    git config --global commit.gpgsign true
+    ```
 
-    - If you don't have a GPG key, generate one using:
-      ```bash
-      gpg --full-generate-key
-      ```
+  - If you don't have a GPG key, generate one using:
+    ```bash
+    gpg --full-generate-key
+    ```
 
-    - After generating the key, list your keys to find the key ID:
-      ```bash
-      gpg --list-secret-keys --keyid-format=long
-      ```
+  - After generating the key, list your keys to find the key ID:
+    ```bash
+    gpg --list-secret-keys --keyid-format=long
+    ```
 
-    - Add the key to your GitHub account by exporting it:
-      ```bash
-      gpg --armor --export <your-gpg-key-id>
-      ```
+  - Add the key to your GitHub account by exporting it:
+    ```bash
+    gpg --armor --export <your-gpg-key-id>
+    ```
 
-    - Copy the output and add it to your GitHub account under **Settings > SSH and GPG keys > New GPG key**.
+  - Copy the output and add it to your GitHub account under **Settings > SSH and GPG keys > New GPG key**.
 
-    - When committing, ensure your commits are signed:
-      ```bash
-      git commit -S -m "Your commit message"
-      ```
+  - When committing, ensure your commits are signed:
+    ```bash
+    git commit -S -m "Your commit message"
+    ```
 
-7. **Create a Pull Request**:
-    - Go to your forked repository on GitHub.
-    - Click "Compare & pull request" to propose your changes to the original repository.
+- **Create a Pull Request**:
+  - Go to your forked repository on GitHub.
+  - Click "Compare & pull request" to propose your changes to the original repository.
 
 ## 13. Thank You
 
