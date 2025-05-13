@@ -202,8 +202,9 @@ Follow these steps to install and configure PHP using this script:
     ```
   - Check installed extensions:
     ```bash
-    php -m
+      php -m
     ```
+    This command lists all installed PHP extensions for the current PHP version.
 
 - If you want to change the settings, edit the `.env` file, save it, and re-run the script to apply the changes:
   ```bash
@@ -214,18 +215,18 @@ Follow these steps to install and configure PHP using this script:
 
 ## 12. How to Fork and Modify the Repository
 
-1. **Fork the Repository**:
+### **ork the Repository**:
     - Go to the [GitHub repository](https://github.com/kabballa/PHP-UNA).
     - Click the "Fork" button in the top-right corner to create your own copy of the repository.
 
-2. **Clone Your Fork**:
+### **Clone Your Fork**:
     - Clone the forked repository to your local machine:
       ```bash
       git clone [https://github.com/](https://github.com/)<your-username>/PHP-UNA.git
       cd PHP-UNA
       ```
 
-3. **Configure Git Username and Email**:
+###. **Configure Git Username and Email**:
     - Before committing changes, ensure your Git username and email are configured:
       ```bash
       git config --global user.name "Your Name"
@@ -237,7 +238,7 @@ Follow these steps to install and configure PHP using this script:
       git config --global --list
       ```
 
-4. **Make Changes**:
+###. **Make Changes**:
     - Modify the files as needed using your preferred text editor or IDE.
     - After making changes, stage and commit them:
       ```bash
@@ -245,13 +246,13 @@ Follow these steps to install and configure PHP using this script:
       git commit -m "Your commit message"
       ```
 
-5. **Push Changes**:
+###. **Push Changes**:
     - Push your changes to your forked repository:
       ```bash
       git push origin main
       ```
 
-6. **Sign Your Commits**:
+###. **Sign Your Commits**:
     - All pull requests must have signed commits to be accepted. To sign your commits, configure GPG signing in Git:
       ```bash
       git config --global user.signingkey <your-gpg-key-id>
