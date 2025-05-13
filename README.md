@@ -99,10 +99,14 @@ To install Memcached or DragonflyDB, follow their respective installation guides
 - **Memcached Cluster (Kabballa Compatible)**: [Memcached Cluster Installation Guide](https://github.com/kabballa/memcached-cluster)
 - **DragonflyDB Cluster (Kabballa Compatible)**: [DragonflyDB Cluster Installation Guide](https://github.com/kabballa/dragonflydb-cluster)
 
-## 6. PHP Documentation and License
+## 6. Documentation
 
 - Official PHP Documentation: [https://www.php.net/docs.php](https://www.php.net/docs.php)
-- PHP License: [https://www.php.net/license/](https://www.php.net/license/)
+
+### Additional Documentation
+
+- For more information about PHP, visit the [official PHP documentation](https://www.php.net/docs.php).
+- For details about Kabballa and deployment, see this repository's documentation and examples.
 
 ## 7. Contributing
 
@@ -118,7 +122,7 @@ Copyright (C) 2009 - 2025 Coozila! Licensed under the MIT License.
 
 ### 8.2 Licenses
 
-- Coozila!: MIT License
+- Coozila!: [MIT License](LICENSE)
 - PHP: [PHP License](https://www.php.net/license/)
 
 ## 9. Disclaimer
