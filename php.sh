@@ -246,7 +246,7 @@ for PHP_VERSION in "${PHP_VERSIONS[@]}"; do
 done
 
 # ----------------------------------------------------------------------------------#
-#   STEP 7: Configure PHP-FPM pool settings for each PHP version                    #
+#   STEP 7: Configure PHP-FPM pool settings for each PHP version (UNA CMS tuned)    #
 # ----------------------------------------------------------------------------------#
 
 configure_fpm_pool() {
@@ -254,18 +254,19 @@ configure_fpm_pool() {
     echo "Configuring PHP-FPM pool for PHP $PHP_VERSION..."
 
     sudo sed -i \
-      -e '/^\s*listen\s*=.*/d'                    -e "/^\[www\]/a listen = /run/php/php$PHP_VERSION-fpm.sock" \
-      -e '/^\s*listen\.owner\s*=.*/d'             -e "/^\[www\]/a listen.owner = ${LISTEN_OWNER:-www-data}" \
-      -e '/^\s*listen\.group\s*=.*/d'             -e "/^\[www\]/a listen.group = ${LISTEN_GROUP:-www-data}" \
-      -e '/^\s*listen\.mode\s*=.*/d'              -e "/^\[www\]/a listen.mode = ${LISTEN_MODE:-0660}" \
-      -e '/^\s*pm\s*=.*/d'                        -e "/^\[www\]/a pm = ${PM:-dynamic}" \
-      -e '/^\s*pm\.max_children\s*=.*/d'          -e "/^\[www\]/a pm.max_children = ${PM_MAX_CHILDREN:-128}" \
-      -e '/^\s*pm\.start_servers\s*=.*/d'         -e "/^\[www\]/a pm.start_servers = ${PM_START_SERVERS:-12}" \
-      -e '/^\s*pm\.min_spare_servers\s*=.*/d'     -e "/^\[www\]/a pm.min_spare_servers = ${PM_MIN_SPARE_SERVERS:-6}" \
-      -e '/^\s*pm\.max_spare_servers\s*=.*/d'     -e "/^\[www\]/a pm.max_spare_servers = ${PM_MAX_SPARE_SERVERS:-24}" \
-      -e '/^\s*pm\.max_requests\s*=.*/d'          -e "/^\[www\]/a pm.max_requests = ${PM_MAX_REQUESTS:-0}" \
-      -e '/^\s*rlimit_files\s*=.*/d'              -e "/^\[global\]/a rlimit_files = ${RLIMIT_FILES:-65536}" \
-      -e '/^\s*rlimit_core\s*=.*/d'               -e "/^\[global\]/a rlimit_core = ${RLIMIT_CORE:-0}" \
+      -e '/^\s*listen\s*=.*/d'                          -e "/^\[www\]/a listen = /run/php/php$PHP_VERSION-fpm.sock" \
+      -e '/^\s*listen\.owner\s*=.*/d'                   -e "/^\[www\]/a listen.owner = ${LISTEN_OWNER:-www-data}" \
+      -e '/^\s*listen\.group\s*=.*/d'                   -e "/^\[www\]/a listen.group = ${LISTEN_GROUP:-www-data}" \
+      -e '/^\s*listen\.mode\s*=.*/d'                    -e "/^\[www\]/a listen.mode = ${LISTEN_MODE:-0660}" \
+      -e '/^\s*pm\s*=.*/d'                              -e "/^\[www\]/a pm = ${PM:-dynamic}" \
+      -e '/^\s*pm\.max_children\s*=.*/d'                -e "/^\[www\]/a pm.max_children = ${PM_MAX_CHILDREN:-582}" \
+      -e '/^\s*pm\.start_servers\s*=.*/d'               -e "/^\[www\]/a pm.start_servers = ${PM_START_SERVERS:-48}" \
+      -e '/^\s*pm\.min_spare_servers\s*=.*/d'           -e "/^\[www\]/a pm.min_spare_servers = ${PM_MIN_SPARE_SERVERS:-24}" \
+      -e '/^\s*pm\.max_spare_servers\s*=.*/d'           -e "/^\[www\]/a pm.max_spare_servers = ${PM_MAX_SPARE_SERVERS:-96}" \
+      -e '/^\s*pm\.max_requests\s*=.*/d'                -e "/^\[www\]/a pm.max_requests = ${PM_MAX_REQUESTS:-500}" \
+      -e '/^\s*pm\.process_idle_timeout\s*=.*/d'        -e "/^\[www\]/a pm.process_idle_timeout = ${PM_PROCESS_IDLE_TIMEOUT:-5s}" \
+      -e '/^\s*rlimit_files\s*=.*/d'                    -e "/^\[global\]/a rlimit_files = ${RLIMIT_FILES:-65536}" \
+      -e '/^\s*rlimit_core\s*=.*/d'                     -e "/^\[global\]/a rlimit_core = ${RLIMIT_CORE:-0}" \
       /etc/php/$PHP_VERSION/fpm/pool.d/www.conf
 
     if [ $? -eq 0 ]; then
