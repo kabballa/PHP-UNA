@@ -327,16 +327,35 @@ Happy coding!
     - Go to your forked repository on GitHub.
     - Click "Compare & pull request" to propose your changes to the original repository.
 
+Înțeles! Iată cum poți rescrie instrucțiunile pentru ambele variante, pentru `main` și `1.0.0`:
+
+---
+
 ## Execute the Script Using `curl`
 
 If you prefer not to clone the repository, you can directly execute the script using `curl`:
 
-1. Run the following command to download and execute the script:
-    ```bash
-    curl -sSL -o php.sh https://raw.githubusercontent.com/kabballa/PHP-UNA/main/php.sh
-    chmod +x php.sh
-    ./php.sh
-    ```
+### Using the `dev` branch
+
+Run the following command to download and execute the script:
+
+```bash
+curl -sSL -o php.sh https://raw.githubusercontent.com/kabballa/PHP-UNA/dev/php.sh
+chmod +x php.sh
+./php.sh
+```
+
+### Using the `1.0.0` branch
+
+Run the following command to download and execute the script from the `1.0.0` branch:
+
+```bash
+curl -sSL -o php.sh https://raw.githubusercontent.com/kabballa/PHP-UNA/1.0.0/php.sh
+chmod +x php.sh
+./php.sh
+```
+
+---
 
 2. Follow the on-screen prompts to complete the installation process.
 
