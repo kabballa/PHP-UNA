@@ -170,7 +170,9 @@ install_php_versions() {
             php$PHP_VERSION-xml \
             php$PHP_VERSION-soap \
             php$PHP_VERSION-intl \
-            php$PHP_VERSION-bcmath
+            php$PHP_VERSION-bcmath \
+            php$PHP_VERSION-json \
+            php$PHP_VERSION-openssl
         if [ $? -eq 0 ]; then
             echo "PHP $PHP_VERSION installed successfully."
         else
