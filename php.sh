@@ -81,7 +81,7 @@ add_php_repository() {
 add_php_repository
 
 # ----------------------------------------------------------------------------------#
-#   STEP 2: Define PHP versions to configure (Interactive Mode)                     #
+#   STEP 2: Define PHP versions to configure (Interactive Mode) php8.3-fpm default  #
 # ----------------------------------------------------------------------------------#
 
 select_php_versions() {
