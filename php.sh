@@ -89,27 +89,29 @@ select_php_versions() {
     echo "1) PHP 7.4"
     echo "2) PHP 8.0"
     echo "3) PHP 8.1"
-    echo "4) PHP 8.2 (default)"
-    echo "5) All versions (7.4, 8.0, 8.1, 8.2)"
-    echo "Press Enter to install the default version (8.2) or wait 10 seconds for automatic selection."
+    echo "4) PHP 8.2"
+    echo "5) PHP 8.3 (new default)"
+    echo "6) All versions (7.4, 8.0, 8.1, 8.2, 8.3)"
+    echo "Press Enter to install the new default version (8.3) or wait 10 seconds for automatic selection." # Updated default message
 
     # Wait for user input with a 10-second timeout
-    read -t 10 -p "Your choice: " USER_INPUT || USER_INPUT="4" # Default to option 4 (PHP 8.2)
+    read -t 10 -p "Your choice: " USER_INPUT || USER_INPUT="5"
 
     case "$USER_INPUT" in
         1) PHP_VERSIONS=("7.4") ;;
         2) PHP_VERSIONS=("8.0") ;;
         3) PHP_VERSIONS=("8.1") ;;
-        4 | "") PHP_VERSIONS=("8.2") ;; # Default to 8.2
-        5) PHP_VERSIONS=("7.4" "8.0" "8.1" "8.2") ;; # Install all versions
-        *) 
-            echo "Invalid choice or timeout. Defaulting to PHP 8.2."
-            PHP_VERSIONS=("8.2")
+        4) PHP_VERSIONS=("8.2") ;;
+        5 | "") PHP_VERSIONS=("8.3") ;;
+        6) PHP_VERSIONS=("7.4" "8.0" "8.1" "8.2" "8.3") ;;
+        *)
+            echo "Invalid choice or timeout. Defaulting to PHP 8.3."
+            PHP_VERSIONS=("8.3")
             ;;
     esac
-
     echo "PHP versions to be configured: ${PHP_VERSIONS[*]}"
 }
+
 
 # Call the function to select PHP versions
 select_php_versions
