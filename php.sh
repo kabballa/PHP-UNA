@@ -197,6 +197,8 @@ configure_php_ini() {
       -e '/^\s*memory_limit\s*=/d'                         -e "/^\[PHP\]/a memory_limit = ${MEMORY_LIMIT:-32768M}" \
       -e '/^\s*post_max_size\s*=/d'                        -e "/^\[PHP\]/a post_max_size = ${POST_MAX_SIZE:-4096M}" \
       -e '/^\s*upload_max_filesize\s*=/d'                  -e "/^\[PHP\]/a upload_max_filesize = ${UPLOAD_MAX_FILESIZE:-4096M}" \
+      -e '/^\s*max_execution_time\s*=/d'                   -e "/^\[PHP\]/a max_execution_time = ${MAX_EXECUTION_TIME:-300}" \
+      -e '/^\s*max_file_uploads\s*=/d'                     -e "/^\[PHP\]/a max_file_uploads = ${MAX_FILE_UPLOADS:-100}" \
       -e '/^\s*allow_url_fopen\s*=/d'                      -e "/^\[PHP\]/a allow_url_fopen = ${ALLOW_URL_FOPEN:-On}" \
       -e '/^\s*allow_url_include\s*=/d'                    -e "/^\[PHP\]/a allow_url_include = ${ALLOW_URL_INCLUDE:-Off}" \
       -e '/^\s*short_open_tag\s*=/d'                       -e "/^\[PHP\]/a short_open_tag = ${SHORT_OPEN_TAG:-On}" \
